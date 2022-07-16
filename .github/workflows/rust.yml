@@ -21,6 +21,12 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
 
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   check:
     name: Rust project
     runs-on: ubuntu-latest
