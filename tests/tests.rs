@@ -44,6 +44,7 @@ mod tests {
     #[test]
     fn kuka_kr6_forward() {
         let params = kuka_kr6_params();
+        println!("Using the following parameters: {}", params);
 
         let joint_values = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
         let forward_pose = forward(&params, &joint_values);
@@ -62,6 +63,8 @@ mod tests {
     #[test]
     fn kuka_kr6_inverse() {
         let params = kuka_kr6_params();
+        println!("Using the following parameters: {}", params);
+
         let joint_values = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
         let forward_pose = forward(&params, &joint_values);
 
