@@ -16,9 +16,9 @@ pub struct Parameters {
 
 impl fmt::Display for Parameters {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
+        writeln!(
             f,
-            "Distances: [{} {} {} {} {} {} {}]\n",
+            "Distances: [{} {} {} {} {} {} {}]",
             self.a1, self.a2, self.b, self.c1, self.c2, self.c3, self.c4
         )?;
 
