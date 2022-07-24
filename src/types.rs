@@ -1,4 +1,7 @@
+use std::f32::consts::PI;
+
 #[derive(Copy, Clone)]
+
 pub enum RotationDirection {
     Positive = 1,
     Negative = -1,
@@ -44,6 +47,31 @@ pub struct JointState(pub f32, pub f32, pub f32, pub f32, pub f32, pub f32);
 impl From<[f32; 6]> for JointState {
     fn from(data: [f32; 6]) -> Self {
         JointState(data[0], data[1], data[2], data[3], data[4], data[5])
+    }
+}
+
+impl JointState {
+    pub fn is_valid(&self) -> bool {
+        [self.0, self.1, self.2, self.3, self.4, self.5]
+            .iter()
+            .all(|q| q.is_finite())
+    }
+
+    pub fn harmonize_toward_zero(&mut self) {
+        for q in [
+            &mut self.0,
+            &mut self.1,
+            &mut self.2,
+            &mut self.3,
+            &mut self.4,
+            &mut self.5,
+        ] {
+            if *q > PI {
+                *q -= PI * 2.0;
+            } else if *q < PI {
+                *q += PI * 2.0;
+            }
+        }
     }
 }
 

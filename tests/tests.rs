@@ -2,7 +2,7 @@
 mod tests {
 
     use opwk::types::*;
-    use opwk::{forward, inverse, is_valid};
+    use opwk::{forward, inverse};
 
     use nalgebra as na;
 
@@ -75,7 +75,7 @@ mod tests {
 
         let sols = inverse(&params, &forward_pose);
         for s in sols {
-            if is_valid(&s) {
+            if s.is_valid() {
                 // Forward kinematics of a solution should result in the same pose
                 let pose = forward(&params, &s);
                 compare_poses(&forward_pose, &pose);
