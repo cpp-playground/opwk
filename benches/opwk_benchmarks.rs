@@ -14,12 +14,19 @@ fn bench_forward(c: &mut Criterion) {
         c3: 0.365,
         c4: 0.080,
         offsets: [0.0, -std::f32::consts::PI / 2.0, 0.0, 0.0, 0.0, 0.0],
-        sign_corrections: [-1, 1, 1, -1, 1, -1],
+        sign_corrections: SignCorrections(
+            RotationDirection::Negative,
+            RotationDirection::Positive,
+            RotationDirection::Positive,
+            RotationDirection::Negative,
+            RotationDirection::Positive,
+            RotationDirection::Negative,
+        ),
     };
 
     let joint_values: [f32; 6] = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
     c.bench_function("forward kinematics", |b| {
-        b.iter(|| forward(black_box(&params), black_box(&joint_values)))
+        b.iter(|| forward(black_box(&params), black_box(&joint_values.into())))
     });
 }
 
@@ -33,10 +40,17 @@ fn bench_inverse(c: &mut Criterion) {
         c3: 0.365,
         c4: 0.080,
         offsets: [0.0, -std::f32::consts::PI / 2.0, 0.0, 0.0, 0.0, 0.0],
-        sign_corrections: [-1, 1, 1, -1, 1, -1],
+        sign_corrections: SignCorrections(
+            RotationDirection::Negative,
+            RotationDirection::Positive,
+            RotationDirection::Positive,
+            RotationDirection::Negative,
+            RotationDirection::Positive,
+            RotationDirection::Negative,
+        ),
     };
     let joint_values: [f32; 6] = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
-    let pose = forward(&params, &joint_values);
+    let pose = forward(&params, &joint_values.into());
     c.bench_function("inverse kinematics", |b| {
         b.iter(|| inverse(black_box(&params), black_box(&pose)))
     });

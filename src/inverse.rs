@@ -230,13 +230,15 @@ pub(crate) mod internal {
             params.offsets[5]
         ];
 
+        let sc = &params.sign_corrections;
+        let corrections: [i8; 6] = sc.into();
         let signs = na::vector![
-            params.sign_corrections[0] as f32,
-            params.sign_corrections[1] as f32,
-            params.sign_corrections[2] as f32,
-            params.sign_corrections[3] as f32,
-            params.sign_corrections[4] as f32,
-            params.sign_corrections[5] as f32
+            corrections[0] as f32,
+            corrections[1] as f32,
+            corrections[2] as f32,
+            corrections[3] as f32,
+            corrections[4] as f32,
+            corrections[5] as f32
         ];
 
         let mut sols = na::SMatrix::<f32, 6, 8>::zeros();
@@ -249,7 +251,16 @@ pub(crate) mod internal {
             sol_col.component_mul_assign(&signs);
         }
 
-        sols.data.0
+        [
+            sols.data.0[0].into(),
+            sols.data.0[1].into(),
+            sols.data.0[2].into(),
+            sols.data.0[3].into(),
+            sols.data.0[4].into(),
+            sols.data.0[5].into(),
+            sols.data.0[6].into(),
+            sols.data.0[7].into(),
+        ]
     }
 
     fn handle_nominal_joint_5_case(

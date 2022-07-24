@@ -1,6 +1,52 @@
-use std::fmt;
+#[derive(Copy, Clone)]
+pub enum RotationDirection {
+    Positive = 1,
+    Negative = -1,
+}
 
-pub type JointState = [f32; 6];
+impl From<RotationDirection> for i8 {
+    fn from(data: RotationDirection) -> Self {
+        data as i8
+    }
+}
+
+impl Default for RotationDirection {
+    fn default() -> Self {
+        Self::Positive
+    }
+}
+
+#[derive(Default)]
+pub struct SignCorrections(
+    pub RotationDirection,
+    pub RotationDirection,
+    pub RotationDirection,
+    pub RotationDirection,
+    pub RotationDirection,
+    pub RotationDirection,
+);
+
+impl From<&SignCorrections> for [i8; 6] {
+    fn from(data: &SignCorrections) -> Self {
+        [
+            data.0.into(),
+            data.1.into(),
+            data.2.into(),
+            data.3.into(),
+            data.4.into(),
+            data.5.into(),
+        ]
+    }
+}
+
+pub struct JointState(pub f32, pub f32, pub f32, pub f32, pub f32, pub f32);
+
+impl From<[f32; 6]> for JointState {
+    fn from(data: [f32; 6]) -> Self {
+        JointState(data[0], data[1], data[2], data[3], data[4], data[5])
+    }
+}
+
 pub struct Parameters {
     pub a1: f32,
     pub a2: f32,
@@ -11,25 +57,5 @@ pub struct Parameters {
     pub c4: f32,
 
     pub offsets: [f32; 6],
-    pub sign_corrections: [i8; 6],
-}
-
-impl fmt::Display for Parameters {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        writeln!(
-            f,
-            "Distances: [{} {} {} {} {} {} {}]",
-            self.a1, self.a2, self.b, self.c1, self.c2, self.c3, self.c4
-        )?;
-
-        write!(f, "Offsets = [")?;
-        for offset in self.offsets.iter() {
-            write!(f, "{} ", offset)?;
-        }
-        write!(f, "]\nSign_corrections = [")?;
-        for sign_correction in self.sign_corrections.iter() {
-            write!(f, "{} ", sign_correction)?;
-        }
-        write!(f, "]")
-    }
+    pub sign_corrections: SignCorrections,
 }

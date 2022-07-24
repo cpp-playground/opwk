@@ -16,7 +16,14 @@ mod tests {
             c3: 0.365,
             c4: 0.080,
             offsets: [0.0, -std::f32::consts::PI / 2.0, 0.0, 0.0, 0.0, 0.0],
-            sign_corrections: [-1, 1, 1, -1, 1, -1],
+            sign_corrections: SignCorrections(
+                RotationDirection::Negative,
+                RotationDirection::Positive,
+                RotationDirection::Positive,
+                RotationDirection::Negative,
+                RotationDirection::Positive,
+                RotationDirection::Negative,
+            ),
         }
     }
 
@@ -44,10 +51,9 @@ mod tests {
     #[test]
     fn kuka_kr6_forward() {
         let params = kuka_kr6_params();
-        println!("Using the following parameters: {}", params);
 
         let joint_values = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
-        let forward_pose = forward(&params, &joint_values);
+        let forward_pose = forward(&params, &joint_values.into());
 
         let expected = na::IsometryMatrix3::<f32>::from_parts(
             na::Translation::from(na::vector![0.7341169, -0.1520347, 0.182639]),
@@ -63,10 +69,9 @@ mod tests {
     #[test]
     fn kuka_kr6_inverse() {
         let params = kuka_kr6_params();
-        println!("Using the following parameters: {}", params);
 
         let joint_values = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
-        let forward_pose = forward(&params, &joint_values);
+        let forward_pose = forward(&params, &joint_values.into());
 
         let sols = inverse(&params, &forward_pose);
         for s in sols {
