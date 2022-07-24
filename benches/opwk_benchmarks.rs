@@ -3,6 +3,7 @@ use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use opwk::forward;
 use opwk::inverse;
 use opwk::types::*;
+use std::f32::consts::PI;
 
 fn bench_forward(c: &mut Criterion) {
     let params: Parameters = Parameters {
@@ -13,7 +14,7 @@ fn bench_forward(c: &mut Criterion) {
         c2: 0.315,
         c3: 0.365,
         c4: 0.080,
-        offsets: [0.0, -std::f32::consts::PI / 2.0, 0.0, 0.0, 0.0, 0.0],
+        offsets: [0.0, -PI / 2.0, 0.0, 0.0, 0.0, 0.0],
         sign_corrections: SignCorrections(
             RotationDirection::Negative,
             RotationDirection::Positive,
@@ -39,7 +40,7 @@ fn bench_inverse(c: &mut Criterion) {
         c2: 0.315,
         c3: 0.365,
         c4: 0.080,
-        offsets: [0.0, -std::f32::consts::PI / 2.0, 0.0, 0.0, 0.0, 0.0],
+        offsets: [0.0, -PI / 2.0, 0.0, 0.0, 0.0, 0.0],
         sign_corrections: SignCorrections(
             RotationDirection::Negative,
             RotationDirection::Positive,

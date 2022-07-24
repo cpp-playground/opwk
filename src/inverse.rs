@@ -1,5 +1,6 @@
 pub(crate) mod internal {
 
+    use std::f32::consts::PI;
     use std::ops::AddAssign;
 
     use crate::types::{JointState, Parameters};
@@ -15,7 +16,7 @@ pub(crate) mod internal {
         let tmp1 = c.y.atan2(c.x);
         let tmp2 = params.b.atan2(nx1 + params.a1);
         let theta1_i = tmp1 - tmp2;
-        let theta1_ii = tmp1 + tmp2 - std::f32::consts::PI;
+        let theta1_ii = tmp1 + tmp2 - PI;
 
         // theta2 i through iv
         let tmp3 = c.z - params.c1;
@@ -156,70 +157,31 @@ pub(crate) mod internal {
                 handle_nominal_joint_5_case(matrix, 3, &cos1, &sin1, &c23, &s23);
         }
 
-        let theta4_v = theta4_i + std::f32::consts::PI;
-        let theta4_vi = theta4_ii + std::f32::consts::PI;
-        let theta4_vii = theta4_iii + std::f32::consts::PI;
-        let theta4_viii = theta4_iv + std::f32::consts::PI;
+        let theta4_v = theta4_i + PI;
+        let theta4_vi = theta4_ii + PI;
+        let theta4_vii = theta4_iii + PI;
+        let theta4_viii = theta4_iv + PI;
 
-        let theta6_v = theta6_i - std::f32::consts::PI;
-        let theta6_vi = theta6_ii - std::f32::consts::PI;
-        let theta6_vii = theta6_iii - std::f32::consts::PI;
-        let theta6_viii = theta6_iv - std::f32::consts::PI;
+        let theta6_v = theta6_i - PI;
+        let theta6_vi = theta6_ii - PI;
+        let theta6_vii = theta6_iii - PI;
+        let theta6_viii = theta6_iv - PI;
 
-        let theta = na::SMatrix::<f32, 8, 6>::from_iterator(
-            [
-                theta1_i,
-                theta1_i,
-                theta1_ii,
-                theta1_ii,
-                theta1_i,
-                theta1_i,
-                theta1_ii,
-                theta1_ii,
-                theta2_i,
-                theta2_ii,
-                theta2_iii,
-                theta2_iv,
-                theta2_i,
-                theta2_ii,
-                theta2_iii,
-                theta2_iv,
-                theta3_i,
-                theta3_ii,
-                theta3_iii,
-                theta3_iv,
-                theta3_i,
-                theta3_ii,
-                theta3_iii,
-                theta3_iv,
-                theta4_i,
-                theta4_ii,
-                theta4_iii,
-                theta4_iv,
-                theta4_v,
-                theta4_vi,
-                theta4_vii,
-                theta4_viii,
-                theta5_i,
-                theta5_ii,
-                theta5_iii,
-                theta5_iv,
-                theta5_v,
-                theta5_vi,
-                theta5_vii,
-                theta5_viii,
-                theta6_i,
-                theta6_ii,
-                theta6_iii,
-                theta6_iv,
-                theta6_v,
-                theta6_vi,
-                theta6_vii,
-                theta6_viii,
-            ]
-            .iter()
-            .cloned(),
-        );
+        #[rustfmt::skip]
+        let theta = { 
+            na::SMatrix::<f32, 8, 6>::from_iterator(
+                [
+                    theta1_i, theta1_i, theta1_ii, theta1_ii, theta1_i, theta1_i, theta1_ii, theta1_ii,
+                    theta2_i, theta2_ii, theta2_iii, theta2_iv, theta2_i, theta2_ii, theta2_iii, theta2_iv,
+                    theta3_i, theta3_ii, theta3_iii, theta3_iv, theta3_i, theta3_ii, theta3_iii, theta3_iv,
+                    theta4_i, theta4_ii, theta4_iii, theta4_iv, theta4_v, theta4_vi, theta4_vii, theta4_viii,
+                    theta5_i, theta5_ii, theta5_iii, theta5_iv, theta5_v, theta5_vi, theta5_vii, theta5_viii,
+                    theta6_i, theta6_ii, theta6_iii, theta6_iv, theta6_v, theta6_vi, theta6_vii, theta6_viii,
+                ]
+                .iter()
+                .cloned(),
+            )
+        };
 
         let offsets = na::vector![
             params.offsets[0],
