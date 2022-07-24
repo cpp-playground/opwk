@@ -171,7 +171,7 @@ pub(crate) mod internal {
         let theta = { 
             na::SMatrix::<f32, 8, 6>::from_iterator(
                 [
-                    theta1_i, theta1_i, theta1_ii, theta1_ii, theta1_i, theta1_i, theta1_ii, theta1_ii,
+                    theta1_i, theta1_i,  theta1_ii,  theta1_ii, theta1_i, theta1_i,  theta1_ii,  theta1_ii,
                     theta2_i, theta2_ii, theta2_iii, theta2_iv, theta2_i, theta2_ii, theta2_iii, theta2_iv,
                     theta3_i, theta3_ii, theta3_iii, theta3_iv, theta3_i, theta3_ii, theta3_iii, theta3_iv,
                     theta4_i, theta4_ii, theta4_iii, theta4_iv, theta4_v, theta4_vi, theta4_vii, theta4_viii,
