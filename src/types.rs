@@ -1,7 +1,6 @@
 use std::f32::consts::PI;
 
 #[derive(Copy, Clone)]
-
 pub enum RotationDirection {
     Positive = 1,
     Negative = -1,
